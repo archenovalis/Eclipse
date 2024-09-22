@@ -300,8 +300,14 @@ internal class CanvasService
     {
         if (progress != goal)
         {
+            string hasLevel = "<color=white>";
+            if (level > 0)
+            {
+                hasLevel = $"Lv<color=white>{level}  ";
+            }
+            
             if (!questObject.gameObject.active) questObject.gameObject.active = true;
-            questSubHeader.ForceSet($"Lv<color=white>{level}  {target}</color>:  <color=yellow>{progress}/{goal}</color>");
+            questSubHeader.ForceSet($"{hasLevel}{target}</color>:  <color=yellow>{progress}/{goal}</color>");
 
             if (targetType.Equals(TargetType.Kill))
             {

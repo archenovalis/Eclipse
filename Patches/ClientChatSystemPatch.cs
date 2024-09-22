@@ -45,7 +45,8 @@ internal static class ClientChatSystemPatch
     public enum NetworkEventSubType
     {
         RegisterUser,
-        ProgressToClient,
+        ProgressToClient1,
+        ProgressToClient2,
         ConfigsToClient
     }
 
@@ -70,7 +71,8 @@ internal static class ClientChatSystemPatch
         }
 
         //NativeArray<Entity> entities = __instance.EntityQueries[1].ToEntityArray(Allocator.Temp);
-        NativeArray<Entity> entities = __instance._ReceiveChatMessagesQuery.ToEntityArray(Allocator.Temp);
+        NativeArray<Entity> entities = __instance.__query_172511205_1.ToEntityArray(Allocator.Temp);
+        //NativeArray<Entity> entities = __instance._ReceiveChatMessagesQuery.ToEntityArray(Allocator.Temp);
         try
         {
             foreach (Entity entity in entities)
@@ -117,9 +119,9 @@ internal static class ClientChatSystemPatch
         int eventType = int.Parse(regexExtract.Match(message).Groups[1].Value);
         switch (eventType)
         {
-            case (int)NetworkEventSubType.ProgressToClient:
+            case (int)NetworkEventSubType.ProgressToClient1:
                 List<string> playerData = DataService.ParseMessageString(regexExtract.Replace(message, ""));
-                DataService.ParsePlayerData(playerData);
+                DataService.ParsePlayerData(playerData, 1);
                 if (!CanvasService.Active)
                 {
                     if (CanvasService.KillSwitch) CanvasService.KillSwitch = false;
@@ -132,6 +134,17 @@ internal static class ClientChatSystemPatch
                 List<string> configData = DataService.ParseMessageString(regexExtract.Replace(message, ""));
                 DataService.ParseConfigData(configData);
                 //if (!CanvasService.Active) Core.StartCoroutine(CanvasService.CanvasUpdateLoop());
+                break;
+            case (int)NetworkEventSubType.ProgressToClient2:
+                List<string> playerData2 = DataService.ParseMessageString(regexExtract.Replace(message, ""));
+                DataService.ParsePlayerData(playerData2, 2);
+                if (!CanvasService.Active)
+                {
+                    if (CanvasService.KillSwitch) CanvasService.KillSwitch = false;
+                    CanvasService.Active = true;
+
+                    Core.StartCoroutine(CanvasService.CanvasUpdateLoop());
+                }
                 break;
         }
     }

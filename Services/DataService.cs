@@ -288,49 +288,53 @@ internal static class DataService
 
         ClassStatSynergies = parsedConfigData.ClassStatSynergies;
     }
-    public static void ParsePlayerData(List<string> playerData)
+    public static void ParsePlayerData(List<string> playerData, int set)
     {
         int index = 0;
+        if (set == 1){
+            ExperienceData experienceData = new(playerData[index++], playerData[index++], playerData[index++], playerData[index++]);
+            LegacyData legacyData = new(playerData[index++], playerData[index++], playerData[index++], playerData[index++], playerData[index++]);
+            ExpertiseData expertiseData = new(playerData[index++], playerData[index++], playerData[index++], playerData[index++], playerData[index]);
+        
+            //Core.Log.LogInfo(string.Join(",", playerData));
+            //Core.Log.LogInfo(string.Join(",", legacyData.BonusStats));
+            //Core.Log.LogInfo(string.Join(",", expertiseData.BonusStats));
 
-        ExperienceData experienceData = new(playerData[index++], playerData[index++], playerData[index++], playerData[index++]);
-        LegacyData legacyData = new(playerData[index++], playerData[index++], playerData[index++], playerData[index++], playerData[index++]);
-        ExpertiseData expertiseData = new(playerData[index++], playerData[index++], playerData[index++], playerData[index++], playerData[index++]);
-        QuestData dailyQuestData = new(playerData[index++], playerData[index++], playerData[index++], playerData[index++], playerData[index++], playerData[index++]);
-        QuestData weeklyQuestData = new(playerData[index++], playerData[index++], playerData[index++], playerData[index++], playerData[index++], playerData[index]);
+            CanvasService.ExperienceProgress = experienceData.Progress;
+            CanvasService.ExperienceLevel = experienceData.Level;
+            CanvasService.ExperiencePrestige = experienceData.Prestige;
+            CanvasService.ClassType = experienceData.Class;
 
-        //Core.Log.LogInfo(string.Join(",", playerData));
-        //Core.Log.LogInfo(string.Join(",", legacyData.BonusStats));
-        //Core.Log.LogInfo(string.Join(",", expertiseData.BonusStats));
+            CanvasService.LegacyProgress = legacyData.Progress;
+            CanvasService.LegacyLevel = legacyData.Level;
+            CanvasService.LegacyPrestige = legacyData.Prestige;
+            CanvasService.LegacyType = legacyData.LegacyType;
+            CanvasService.LegacyBonusStats = legacyData.BonusStats;
 
-        CanvasService.ExperienceProgress = experienceData.Progress;
-        CanvasService.ExperienceLevel = experienceData.Level;
-        CanvasService.ExperiencePrestige = experienceData.Prestige;
-        CanvasService.ClassType = experienceData.Class;
+            CanvasService.ExpertiseProgress = expertiseData.Progress;
+            CanvasService.ExpertiseLevel = expertiseData.Level;
+            CanvasService.ExpertisePrestige = expertiseData.Prestige;
+            CanvasService.ExpertiseType = expertiseData.ExpertiseType;
+            CanvasService.ExpertiseBonusStats = expertiseData.BonusStats;
+        }
+        else if (set == 2)
+        {
+            QuestData dailyQuestData = new(playerData[index++], playerData[index++], playerData[index++], playerData[index++], playerData[index++], playerData[index++]);
+            QuestData weeklyQuestData = new(playerData[index++], playerData[index++], playerData[index++], playerData[index++], playerData[index++], playerData[index]);
 
-        CanvasService.LegacyProgress = legacyData.Progress;
-        CanvasService.LegacyLevel = legacyData.Level;
-        CanvasService.LegacyPrestige = legacyData.Prestige;
-        CanvasService.LegacyType = legacyData.LegacyType;
-        CanvasService.LegacyBonusStats = legacyData.BonusStats;
+            CanvasService.DailyTargetType = dailyQuestData.TargetType;
+            CanvasService.DailyProgress = dailyQuestData.Progress;
+            CanvasService.DailyGoal = dailyQuestData.Goal;
+            CanvasService.DailyTarget = dailyQuestData.Target;
+            CanvasService.DailyVBlood = dailyQuestData.IsVBlood;
+            CanvasService.DailyLevel = dailyQuestData.Level;
 
-        CanvasService.ExpertiseProgress = expertiseData.Progress;
-        CanvasService.ExpertiseLevel = expertiseData.Level;
-        CanvasService.ExpertisePrestige = expertiseData.Prestige;
-        CanvasService.ExpertiseType = expertiseData.ExpertiseType;
-        CanvasService.ExpertiseBonusStats = expertiseData.BonusStats;
-
-        CanvasService.DailyTargetType = dailyQuestData.TargetType;
-        CanvasService.DailyProgress = dailyQuestData.Progress;
-        CanvasService.DailyGoal = dailyQuestData.Goal;
-        CanvasService.DailyTarget = dailyQuestData.Target;
-        CanvasService.DailyVBlood = dailyQuestData.IsVBlood;
-        CanvasService.DailyLevel = dailyQuestData.Level;
-
-        CanvasService.WeeklyTargetType = weeklyQuestData.TargetType;
-        CanvasService.WeeklyProgress = weeklyQuestData.Progress;
-        CanvasService.WeeklyGoal = weeklyQuestData.Goal;
-        CanvasService.WeeklyTarget = weeklyQuestData.Target;
-        CanvasService.WeeklyVBlood = weeklyQuestData.IsVBlood;
-        CanvasService.WeeklyLevel = weeklyQuestData.Level;
+            CanvasService.WeeklyTargetType = weeklyQuestData.TargetType;
+            CanvasService.WeeklyProgress = weeklyQuestData.Progress;
+            CanvasService.WeeklyGoal = weeklyQuestData.Goal;
+            CanvasService.WeeklyTarget = weeklyQuestData.Target;
+            CanvasService.WeeklyVBlood = weeklyQuestData.IsVBlood;
+            CanvasService.WeeklyLevel = weeklyQuestData.Level;
+        }
     }
 }
